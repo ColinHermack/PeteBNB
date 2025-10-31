@@ -1,4 +1,4 @@
-import { verifyUsernameAvailability } from "@/data/users";
+import { verifyUsernameAvailability, addNewUser, registerUserToken } from "@/data/users";
 
 export async function POST(request: Request) {
     try {
@@ -10,13 +10,18 @@ export async function POST(request: Request) {
             return new Response("Username already taken", { status: 409 });
         }
 
-        //TODO: Add user to database
+        // Add user to database
+        const status = await addNewUser(body.username, body.password, body.name);
+        if (!status) {
+            return new Response("Internal Server Error", { status: 500 });
+        }
 
-        //TODO: Generate user token
+        // Generate user token
+        const token = crypto.randomUUID();
+        registerUserToken(body.username, token);
 
-        //TODO: Return user token
-
-        return new Response("OK", { status: 200 });
+        // Return user token
+        return new Response(JSON.stringify({token: token}), { status: 200 });
 
     } catch (error) {
         console.error(error);
