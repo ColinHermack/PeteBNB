@@ -9,7 +9,10 @@ export async function GET(request: Request) {
             return new Response("Invalid token", { status: 401 });
         }
 
-        return new Response(JSON.stringify(user), { status: 200 });
+        return new Response(JSON.stringify({
+            username: user.username,
+            name: user.name
+        }), { status: 200 });
     } catch (error) {
         console.error(error);
         return new Response("Internal Server Error", { status: 500 });
