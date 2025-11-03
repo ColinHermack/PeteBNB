@@ -72,3 +72,20 @@ export async function deleteListing(id: string): Promise<boolean> {
         await client.close();
     }
 }
+
+export async function updateListing(id: string, title: string, description: string, price: number, startDate: Date, endDate: Date): Promise<boolean> {
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+        const db = client.db("pete-bnb");
+        const collection = db.collection("Listings");
+        await collection.updateOne({ id: id }, { $set: { title: title, description: description, price: price, startdate: startDate, enddate: endDate } });
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        await client.close();
+    }
+}
