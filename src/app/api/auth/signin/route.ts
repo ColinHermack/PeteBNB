@@ -1,4 +1,4 @@
-import { registerUserToken, deregisterUserToken, verifyUser } from "@/data/users";
+import { User, registerUserToken, deregisterUserToken, verifyUser, getUserByUsername } from "@/data/users";
 
 export async function POST(request: Request) {
     try {
@@ -12,10 +12,13 @@ export async function POST(request: Request) {
 
         // Generate user token
         const token = crypto.randomUUID();
+        deregisterUserToken(body.username);
         registerUserToken(body.username, token);
 
+        const user: User = await getUserByUsername(body.username);
+
         // Return user token
-        return new Response(JSON.stringify({token: token}), { status: 200 });
+        return new Response(JSON.stringify({token: token, username: user.username, name: user.name}), { status: 200 });
 
     } catch (error) {
         console.error(error);

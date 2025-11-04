@@ -32,13 +32,8 @@ export async function addNewUser(username: string, password: string, name: strin
         await client.connect();
         const db = client.db("pete-bnb");
         const collection = db.collection("Users");
-        bcrypt.hash(password, 10, async function(err: any, hash: string) {
-            if (err) {
-                console.error(err);
-            } else {
-                await collection.insertOne({ userID: crypto.randomUUID(),username: username, password: hash, name: name });
-            }  
-        })
+        let hashed = bcrypt.hash(password, 10);
+        await collection.insertOne({ userId: crypto.randomUUID(), username: username, password: await hashed, name: name });
         return true;
     } catch (error) {
         console.error(error);
@@ -55,7 +50,7 @@ export async function registerUserToken(username: string, token: string): Promis
         await client.connect();
         const db = client.db("pete-bnb");
         const collection = db.collection("Tokens");
-        await collection.updateOne({ username: username }, { $set: { token: token } });
+        await collection.insertOne({ username: username, token: token });
         return true;
     } catch (error) {
         console.error(error);
@@ -72,7 +67,7 @@ export async function deregisterUserToken(username: string): Promise<boolean> {
         await client.connect();
         const db = client.db("pete-bnb");
         const collection = db.collection("Tokens");
-        await collection.deleteOne({ username: username });
+        await collection.deleteMany({ username: username });
         return true;
     } catch (error) {
         console.error(error);
@@ -128,6 +123,23 @@ export async function getUserByToken(token: string): Promise<User> {
         }
 
         return user;
+    } catch (error) {
+        console.error(error);
+        return { userId: "", username: "", name: "" };
+    } finally {
+        await client.close();
+    }
+}
+
+export async function getUserByUsername(username: string): Promise<User> {
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+        const db = client.db("pete-bnb");
+        const collection = db.collection("Users");
+        const result = await collection.findOne({ username: username });
+        return result;
     } catch (error) {
         console.error(error);
         return { userId: "", username: "", name: "" };

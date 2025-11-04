@@ -2,13 +2,13 @@
 import "./globals.css";
 
 import '@mantine/core/styles.css';
+import { useState, useEffect } from 'react';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 
 import { AppShell, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import { Image } from '@mantine/core';
-import { UserProvider } from './userProvider';
+import { Avatar, Image } from '@mantine/core';
 
 export default function RootLayout({
   children,
@@ -16,6 +16,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [opened, { toggle }] = useDisclosure();
+
+  const [name, setName] = useState<string>('');
+  
+  useEffect(() => {
+    const name = localStorage.getItem('name');
+    if (name !== null) {
+      setName(name);
+    };
+  }, []);
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
@@ -23,24 +32,18 @@ export default function RootLayout({
         <title>PeteBNB</title>
       </head>
       <body>
-        <UserProvider>
           <MantineProvider>
             <AppShell
-              padding="md"
               header={{ height: 60 }}
-              navbar={{
-                width: 300,
-                breakpoint: 'sm',
-                collapsed: { mobile: !opened },
-              }}
             >
-              <AppShell.Header className='flex justify-left items-center'>
-                <Burger
-                  opened={opened}
-                  onClick={toggle}
-                  hiddenFrom="sm"
-                  size="sm"
-                />
+              <AppShell.Header className='flex justify-between items-center'>
+                <div className='flex items-center'>
+                  <Burger
+                    opened={opened}
+                    onClick={toggle}
+                    hiddenFrom="sm"
+                    size="sm"
+                  />
 
                   <Image
                     radius='md'
@@ -51,14 +54,12 @@ export default function RootLayout({
                     className='mx-2'
                   />
                   <p className='text-xl font-bold ml-4'>PeteBNB</p>
+                </div>
+                <Avatar radius='xl' className='mr-4'>{name !== ''? name[0] + name.split(' ')[1][0] : name}</Avatar>
               </AppShell.Header>
-
-              <AppShell.Navbar>Navbar</AppShell.Navbar>
-
               <AppShell.Main>{children}</AppShell.Main>
             </AppShell>
           </MantineProvider>
-        </UserProvider>
       </body>
     </html>
   );
