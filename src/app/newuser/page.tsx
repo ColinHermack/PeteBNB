@@ -1,16 +1,23 @@
 'use client'
 
-import { useContext } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
-export default function SignInPage() {
+export default function NewUserPage() {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
 
-    const userToken = localStorage.getItem('token');
-    if (userToken !== null) {
-        window.location.href = redirect;
-    }
+    const [userToken, setUserToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        const userToken = localStorage.getItem('token');
+
+        if (userToken !== null) {
+            window.location.href = redirect;
+        }
+
+        setUserToken(userToken);
+    })
 
     if (userToken == null) {
         return (

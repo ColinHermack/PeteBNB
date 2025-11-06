@@ -1,4 +1,6 @@
+import { User } from "./user";
+
 export type Token = {
-    username: string,
+    user: User,
     token: string
 }

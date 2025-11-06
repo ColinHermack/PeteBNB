@@ -1,10 +1,19 @@
+import { User } from './user';
+
+export type DwellingType = 'apartment' | 'house' | 'room';
+
 export type Listing = {
     id: string,
-    lister: string,
-    dwelling: string,
+    address: string,
     title: string,
+    type: DwellingType,
+    bedrooms: number,
+    lister: {
+        username: string,
+        name: string
+    },
     description: string,
-    price: number,
-    startdate: Date,
-    enddate: Date
+    cost: number,
+    startDate: Date,
+    endDate: Date
 }

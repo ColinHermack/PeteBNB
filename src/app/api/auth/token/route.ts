@@ -6,8 +6,6 @@ export async function GET(request: Request) {
     }
 
     const token=request.url.split("?")[1].split("=")[1];
-    console.log(token);
-
     const user = await getUserByToken(token);
 
     if (user.userId === "") {

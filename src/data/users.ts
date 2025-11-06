@@ -43,14 +43,14 @@ export async function addNewUser(username: string, password: string, name: strin
     }
 }
 
-export async function registerUserToken(username: string, token: string): Promise<boolean> {
+export async function registerUserToken(userId: string, token: string): Promise<boolean> {
     const client = new MongoClient(uri);
 
     try {
         await client.connect();
         const db = client.db("pete-bnb");
         const collection = db.collection("Tokens");
-        await collection.insertOne({ username: username, token: token });
+        await collection.insertOne({ userId: userId, token: token });
         return true;
     } catch (error) {
         console.error(error);
@@ -60,14 +60,14 @@ export async function registerUserToken(username: string, token: string): Promis
     }
 }
 
-export async function deregisterUserToken(username: string): Promise<boolean> {
+export async function deregisterUserToken(userId: string): Promise<boolean> {
     const client = new MongoClient(uri);
 
     try {
         await client.connect();
         const db = client.db("pete-bnb");
         const collection = db.collection("Tokens");
-        await collection.deleteMany({ username: username });
+        await collection.deleteMany({ userId: userId });
         return true;
     } catch (error) {
         console.error(error);
@@ -104,22 +104,23 @@ export async function getUserByToken(token: string): Promise<User> {
         await client.connect();
         const db = client.db("pete-bnb");
         let collection = db.collection("Tokens");
+
         const result = await collection.findOne({ token: token });
         if (result == null) {
             return { userId: "", username: "", name: "" };
         }
 
         const user: User = {
-            username: result.username,
+            username: "",
             name: "",
-            userId: ""
+            userId: result.userId
         }
 
         collection = db.collection("Users");
-        const dbUser = await collection.findOne({ username: result.username });
+        const dbUser = await collection.findOne({ userId: result.userId });
         if (dbUser != null) {
             user.name = dbUser.name;
-            user.userId = dbUser.userID;
+            user.username = dbUser.username;
         }
 
         return user;

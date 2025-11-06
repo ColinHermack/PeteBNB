@@ -10,13 +10,14 @@ export async function POST(request: Request) {
             return new Response("Invalid username or password", { status: 401 });
         }
 
-        // Generate user token
-        const token = crypto.randomUUID();
-        deregisterUserToken(body.username);
-        registerUserToken(body.username, token);
-
         const user: User = await getUserByUsername(body.username);
 
+        // Generate user token
+        const token = crypto.randomUUID();
+        deregisterUserToken(user.userId);
+        registerUserToken(user.userId, token);
+
+        
         // Return user token
         return new Response(JSON.stringify({token: token, username: user.username, name: user.name}), { status: 200 });
 
