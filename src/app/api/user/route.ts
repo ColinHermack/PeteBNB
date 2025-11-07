@@ -5,6 +5,8 @@ export async function GET(request: Request) {
         const body = await request.json();
         const user = await getUserByToken(body.token);
 
+        console.log(user);
+
         if (user.userId === "") {
             return new Response("Invalid token", { status: 401 });
         }

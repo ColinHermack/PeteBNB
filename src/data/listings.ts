@@ -37,8 +37,8 @@ export async function getListing(id: string): Promise<Listing | null> {
             },
             description: result.description,
             cost: result.cost,
-            startDate: result.startdate,
-            endDate: result.enddate
+            startDate: result.startDate,
+            endDate: result.endDate
         };
 
         return retVal;
@@ -163,9 +163,11 @@ export async function updateListing(
             endDate: endDate
         };
 
+        console.log(id);
+
         for (const [key, value] of Object.entries(args)) {
             if (value !== null) {
-                collection = await collection.updateOne({ id: id }, { $set: { [key]: value } });
+                await collection.updateOne({ id: id }, { $set: { [key]: value } });
             }
         }
 
@@ -173,6 +175,24 @@ export async function updateListing(
     } catch (error) {
         console.error(error);
         return false;
+    } finally {
+        await client.close();
+    }
+}
+
+export async function getListingsByOwner(userId: string) {
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+        const db = client.db("pete-bnb");
+        const collection = db.collection("Listings");
+
+        const result = await collection.find({ lister: userId }).toArray();
+        return result;
+    } catch (error) {
+        console.error(error);
+        return [];
     } finally {
         await client.close();
     }

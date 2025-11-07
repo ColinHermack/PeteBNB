@@ -36,6 +36,8 @@ export async function GET(request: Request) {
             favorite: favorite
         };
 
+        console.log(retVal);
+
         return new Response(JSON.stringify(retVal), { status: 200 });
     } catch (error) {
         console.error(error);

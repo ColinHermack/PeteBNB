@@ -1,5 +1,5 @@
 import { getUserByToken } from '@/data/users';
-import { getFavorites } from '@/data/favorites';
+import { getListingsByOwner } from '@/data/listings';
 
 export async function GET(request: Request) {
     try {
@@ -13,8 +13,8 @@ export async function GET(request: Request) {
             return new Response("Invalid token", { status: 401 });
         }
 
-        const favorites = await getFavorites(user.userId);
-        return new Response(JSON.stringify(favorites), { status: 200 });
+        const listings = await getListingsByOwner(user.userId);
+        return new Response(JSON.stringify(listings), { status: 200 });
     } catch (error) {
         console.error(error);
         return new Response("Internal Server Error", { status: 500 });

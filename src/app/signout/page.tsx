@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 
 export default function SignOutPage() {
     useEffect(() => {
-        const username = localStorage.getItem('username');
+        const token = localStorage.getItem('token');
 
         fetch('/api/auth/signout', {
             method: 'POST',
-            body: JSON.stringify({username: username}),
+            body: JSON.stringify({token: token}),
             headers: {
                 'Content-Type': 'application/json'
             }

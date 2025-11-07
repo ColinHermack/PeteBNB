@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { Anchor, Button, Image, Loader, Card, Group, Text, Badge } from '@mantine/core';
+import { Anchor, Button, Image, Input, Loader, Card, Group, Text, Badge, Paper } from '@mantine/core';
 
 const criteria = {
   maxPrice: -1,
@@ -30,6 +30,10 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
+    if (localStorage.getItem('token') == null) {
+      return;
+    }
+    
     setLoading(true);
 
     let url = '/api/listing/many?';
@@ -55,7 +59,6 @@ export default function Home() {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       setListings(data);
       setLoading(false);
     })

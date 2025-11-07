@@ -70,13 +70,13 @@ export default function RootLayout({
                   />
                   <p className='text-xl font-bold ml-4 hover:cursor-pointer' onClick={() => {window.location.href='/';}}>PeteBNB</p>
                 </div>
-                <Anchor href={name ? '/account' : '/signin'}><Avatar radius='xl' className='mr-4'>{name ? name[0] + name.split(' ')[1][0] : ''}</Avatar></Anchor>
+                <Anchor href={name ? '/account' : '/signin'}><Avatar radius='xl' className='mr-4'></Avatar></Anchor>
               </AppShell.Header>
               <AppShell.Navbar>
                 <div className='w-full h-full flex flex-col justify-top items-center'>
                   <NavLink label="Home" href="/" />
-                  <NavLink label='List Your Place' href='/newlisting' />
                   <NavLink label='Favorites' href='/favorites' />
+                  <NavLink label='My Listings' href='mylistings' />
                 </div>
               </AppShell.Navbar>
               <AppShell.Main>{children}</AppShell.Main>
