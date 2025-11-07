@@ -10,7 +10,7 @@ import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/c
 import { AppShell, Burger, createTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import { Anchor, Avatar, Image } from '@mantine/core';
+import { Anchor, Avatar, Image, NavLink } from '@mantine/core';
 
 const theme = createTheme({
   primaryColor: 'gold',
@@ -74,9 +74,9 @@ export default function RootLayout({
               </AppShell.Header>
               <AppShell.Navbar>
                 <div className='w-full h-full flex flex-col justify-top items-center'>
-                  <Anchor href='/' className='w-full text-center'><div className='text-md font-bold mt-4 w-full pb-4'>Home</div></Anchor>
-                  <Anchor href='/newlisting' className='w-full text-center'><div className='text-md font-bold mt-4 w-full pb-4'>New Listing</div></Anchor>
-                  <Anchor href='/favorites' className='w-full text-center'><div className='text-md font-bold mt-4 w-full pb-4'>Favorites</div></Anchor>
+                  <NavLink label="Home" href="/" />
+                  <NavLink label='List Your Place' href='/newlisting' />
+                  <NavLink label='Favorites' href='/favorites' />
                 </div>
               </AppShell.Navbar>
               <AppShell.Main>{children}</AppShell.Main>

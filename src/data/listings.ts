@@ -13,12 +13,13 @@ export async function getListing(id: string): Promise<Listing | null> {
         let collection = db.collection("Listings");
         const result = await collection.findOne({ id: id });
 
+
         if (result === null) {
             return null;
         }
 
         collection = db.collection("Users");
-        const lister = await collection.findOne({ id: result.lister });
+        const lister = await collection.findOne({ userId: result.lister });
 
         if (lister === null) {
             return null;
@@ -49,7 +50,7 @@ export async function getListing(id: string): Promise<Listing | null> {
     }
 }
 
-export async function getManyListings(maxPrice: number = Number.MAX_SAFE_INTEGER, numBedrooms: number = Number.MAX_SAFE_INTEGER, type: string = ""): Promise<Listing[]> {
+export async function getManyListings(maxPrice: number | null = Number.MAX_SAFE_INTEGER, numBedrooms: number | null = Number.MAX_SAFE_INTEGER, type: string | null = ""): Promise<Listing[]> {
     const client = new MongoClient(uri);
 
     try {
@@ -57,10 +58,21 @@ export async function getManyListings(maxPrice: number = Number.MAX_SAFE_INTEGER
         const db = client.db("pete-bnb");
         const collection = db.collection("Listings");
 
+        if (maxPrice === null) {
+            maxPrice = Number.MAX_SAFE_INTEGER;
+        }
+        if (numBedrooms === null) {
+            numBedrooms = Number.MIN_SAFE_INTEGER;
+        }
+        if (type === null) {
+            type = "";
+        }
+
         if (type === "") {
             const result = await collection.find({ cost: { $lte: maxPrice }, bedrooms: { $gte: numBedrooms } }).toArray();
             return result;
         } 
+
         const result = await collection.find({ cost: { $lte: maxPrice }, bedrooms: { $gte: numBedrooms }, type: type }).toArray();
         return result;
     } catch (error) {

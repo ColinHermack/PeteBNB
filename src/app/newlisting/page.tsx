@@ -137,6 +137,12 @@ export default function NewListingPage() {
                             startDate: dateRange[0],
                             endDate: dateRange[1]
                         })
+                    }).then((response) => {
+                        if (response.ok) {
+                            window.location.href='/';
+                        } else {
+                            alert('Error creating listing!');
+                        }
                     })
                 }}>List</Button>
             </Fieldset>

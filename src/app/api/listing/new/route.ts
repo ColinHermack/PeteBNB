@@ -4,7 +4,6 @@ import { addNewListing } from '@/data/listings';
 export async function POST(request: Request) {
     try {
         const token = request.headers.get('authorization');
-        console.log(token);
         if (token === null) {
             return (new Response("No credentials provided", { status: 401 }));
         }
@@ -24,8 +23,8 @@ export async function POST(request: Request) {
             body.bedrooms,
             body.description,
             body.cost,
-            body.startDate,
-            body.endDate
+            new Date(body.startDate),
+            new Date(body.endDate)
         );
 
         return (new Response(JSON.stringify({id: id}), { status: 200 }));

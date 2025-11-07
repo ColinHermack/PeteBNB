@@ -1,7 +1,8 @@
 import { getUserByToken } from '@/data/users';
 import { getListing } from '@/data/listings';
+import { isFavorite } from '@/data/favorites';
 
-export default async function GET(request: Request) {
+export async function GET(request: Request) {
     try {
         const urlParams = new URLSearchParams(request.url.split("?")[1]);
 
@@ -28,7 +29,14 @@ export default async function GET(request: Request) {
             return new Response("Listing not found", { status: 404 });
         }
 
-        return new Response(JSON.stringify(listing), { status: 200 });
+        const favorite = await isFavorite(user.userId, id);
+        
+        const retVal = {
+            ...listing,
+            favorite: favorite
+        };
+
+        return new Response(JSON.stringify(retVal), { status: 200 });
     } catch (error) {
         console.error(error);
         return new Response("Internal Server Error", { status: 500 });
