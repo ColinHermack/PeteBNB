@@ -1,7 +1,6 @@
 const { MongoClient } = require("mongodb");
 const uri = process.env.MONGODB_CONNECTION_STRING;
 
-import { User } from "@/models/user";
 import { Listing } from "@/models/listing";
 
 export async function addFavorite(userId: string, listingId: string): Promise<boolean> {

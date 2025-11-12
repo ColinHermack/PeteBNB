@@ -138,7 +138,7 @@ export async function updateListing(
     title: string | null = null,
     type: DwellingType | null = null,
     bedrooms: number | null = null,
-    lister: User | null = null,
+    lister: string | null = null,
     description: string | null = null,
     price: number | null = null,
     startDate: Date | null = null,

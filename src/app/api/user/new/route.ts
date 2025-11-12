@@ -21,7 +21,7 @@ export async function POST(request: Request) {
         registerUserToken(body.username, token);
 
         // Return user token
-        return new Response(JSON.stringify({token: token}), { status: 200 });
+        return new Response(JSON.stringify({token: token, username: body.username, name: body.name}), { status: 200 });
 
     } catch (error) {
         console.error(error);
