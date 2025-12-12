@@ -1,6 +1,8 @@
 import { getUserByToken } from '@/data/users';
 import { getListingsByOwner } from '@/data/listings';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
     try {
         const token = request.headers.get('authorization');

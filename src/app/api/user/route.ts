@@ -1,5 +1,7 @@
 import { getUserByToken, User } from '@/data/users';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
     try {
         const body = await request.json();

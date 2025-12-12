@@ -2,6 +2,8 @@ import { getUserByToken } from '@/data/users';
 import { getListing } from '@/data/listings';
 import { isFavorite } from '@/data/favorites';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
     try {
         const urlParams = new URLSearchParams(request.url.split("?")[1]);

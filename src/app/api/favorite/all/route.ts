@@ -1,6 +1,8 @@
 import { getUserByToken } from '@/data/users';
 import { getFavorites } from '@/data/favorites';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
     try {
         const token = request.headers.get('authorization');

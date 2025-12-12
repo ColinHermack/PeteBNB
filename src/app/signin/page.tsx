@@ -12,7 +12,7 @@ export default function SignInPage() {
     )
 }
 
-export function SignInPageInner() {
+function SignInPageInner() {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
 

@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 const uri = process.env.MONGODB_CONNECTION_STRING;
-const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 export type User = {
     userId: string;
@@ -32,8 +32,8 @@ export async function addNewUser(username: string, password: string, name: strin
         await client.connect();
         const db = client.db("pete-bnb");
         const collection = db.collection("Users");
-        let hashed = bcrypt.hash(password, 10);
-        await collection.insertOne({ userId: crypto.randomUUID(), username: username, password: await hashed, name: name });
+        let hashed = await crypto.createHash('sha256').update(password).digest('hex');
+        await collection.insertOne({ userId: crypto.randomUUID(), username: username, password: hashed, name: name });
         return true;
     } catch (error) {
         console.error(error);
@@ -88,7 +88,8 @@ export async function verifyUser(username: string, password: string): Promise<bo
         if (result === null) {
             return false;
         }
-        return bcrypt.compare(password, result.password);
+        let hashed = await crypto.createHash('sha256').update(password).digest('hex');
+        return (hashed === result.password);
     } catch (error) {
         console.error(error);
         return false;

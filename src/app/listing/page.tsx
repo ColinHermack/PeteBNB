@@ -8,7 +8,7 @@ import { Badge, Button, Loader } from '@mantine/core';
 export default function ListingPage() {
     return (
         <Suspense fallback={<>Loading...</>}>
-            <ListingPage />
+            <ListingPageInner />
         </Suspense>
     )
 }
