@@ -1,9 +1,18 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function NewUserPage() {
+    return (
+        <Suspense fallback={<>Loading...</>}>
+            <NewUserPageInner />
+        </Suspense>
+    )
+}
+
+function NewUserPageInner() {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
 

@@ -1,9 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { Suspense } from 'react'
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 export default function SignInPage() {
+    return (
+        <Suspense fallback={<>Loading...</>}>
+            <SignInPageInner />
+        </Suspense>
+    )
+}
+
+export function SignInPageInner() {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
@@ -24,6 +25,14 @@ const defaultListing = {
 }
 
 export default function EditListingPage() {
+    return (
+        <Suspense fallback={<>Listing...</>}>
+            <EditListingPageInner />
+        </Suspense>
+    )
+}
+
+function EditListingPageInner() {
     const [listing, setListing] = useState<any>(defaultListing);
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);

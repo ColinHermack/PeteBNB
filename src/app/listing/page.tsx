@@ -1,10 +1,19 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Badge, Button, Loader } from '@mantine/core';
 
 export default function ListingPage() {
+    return (
+        <Suspense fallback={<>Loading...</>}>
+            <ListingPage />
+        </Suspense>
+    )
+}
+
+function ListingPageInner() {
     const [listing, setListing] = useState<any | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
