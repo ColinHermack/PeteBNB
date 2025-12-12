@@ -3,7 +3,8 @@ import { deregisterUserToken, getUserByToken } from '@/data/users';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const user = await getUserByToken(body.token);
+        const token = body.token.toString();
+        const user = await getUserByToken(token);
         const status = await deregisterUserToken(user.userId);
         if (!status) {
             return new Response("Internal Server Error", { status: 500 });

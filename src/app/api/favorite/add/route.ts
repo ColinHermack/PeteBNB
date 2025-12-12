@@ -3,7 +3,7 @@ import { addFavorite } from '@/data/favorites';
 
 export async function POST(request: Request) {
     try {
-            const token = request.headers.get('authorization');
+        const token = request.headers.get('authorization');
         if (token === null) {
             return new Response("No credentials provided", { status: 401 });
         }
@@ -19,7 +19,8 @@ export async function POST(request: Request) {
             return new Response("No listing id provided", { status: 400 });
         }
 
-        const success = await addFavorite(user.userId, body.listingId);
+        const listingId = body.listingId.toString();
+        const success = await addFavorite(user.userId, listingId);
 
         if (success) {
             return new Response(JSON.stringify({status: "success"}), { status: 200 });

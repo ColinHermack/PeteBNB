@@ -14,12 +14,13 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
+        const listingId = body.listingId.toString();
 
         if (body === null) {
             return new Response("No listing id provided", { status: 400 });
         }
 
-        const success = await removeFavorite(user.userId, body.listingId);
+        const success = await removeFavorite(user.userId, listingId);
 
         if (success) {
             return new Response(JSON.stringify({status: "success"}), { status: 200 });

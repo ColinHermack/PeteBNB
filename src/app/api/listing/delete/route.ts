@@ -19,13 +19,15 @@ export async function DELETE(request: Request) {
             return new Response("No listing id provided", { status: 400 });
         }
 
-        const listing = await getListing(body.id);
+        const id = body.id.toString();
+
+        const listing = await getListing(id);
 
         if (listing?.lister.username !== user.username) {
             return new Response("Unauthorized", { status: 401 });
         }
 
-        const success = await deleteListing(body.id);
+        const success = await deleteListing(id);
 
         if (success) {
             return new Response(JSON.stringify({status: "success"}), { status: 200 });

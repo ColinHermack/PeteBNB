@@ -5,7 +5,7 @@ export async function POST(request: Request) {
         const body = await request.json();
 
         // Verify that the user exists and the password is correct
-        const userStatus = await verifyUser(body.username, body.password);
+        const userStatus = await verifyUser(body.username.toString(), body.password.toString());
         if (!userStatus) {
             return new Response("Invalid username or password", { status: 401 });
         }
