@@ -4,6 +4,9 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
+        const username = body.username.toString();
+        const password = body.password.toString();
+
         // Verify that the user exists and the password is correct
         const userStatus = await verifyUser(body.username.toString(), body.password.toString());
         if (!userStatus) {

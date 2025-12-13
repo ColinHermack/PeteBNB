@@ -4,8 +4,7 @@ import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { Loader, Fieldset, TextInput, Button, Group, Radio, NumberInput } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
+import { Loader, Fieldset, TextInput, Button, Radio, NumberInput } from '@mantine/core';
 
 const defaultListing = {
     address: "",
